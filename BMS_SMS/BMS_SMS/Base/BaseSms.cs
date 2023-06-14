@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using AlibabaCloud.OpenApiClient.Models;
 using AlibabaCloud.SDK.Dysmsapi20170525;
 using AlibabaCloud.SDK.Dysmsapi20170525.Models;
@@ -9,7 +10,8 @@ namespace BMS_SMS.Base
 {
     public class BaseSms
     {
-        public async void Send(string phoneNumber)
+        public static BaseSms Instance = new BaseSms();
+        public async Task<SmsResult> Send(string phoneNumber)
         {
             var config = new Config()
             {
@@ -22,10 +24,18 @@ namespace BMS_SMS.Base
             {
                 PhoneNumbers = phoneNumber,
                 SignName = SmsSendConfig.Instance.SignName,
-                TemplateCode = SmsSendConfig.Instance.TemplateCode
+                TemplateCode = SmsSendConfig.Instance.TemplateCode,
+                TemplateParam = SmsSendConfig.Instance.TemplateParam,
             };
             var sendSmsResponse = await client.SendSmsAsync(sendSms);
-            Console.WriteLine(JsonConvert.SerializeObject(sendSmsResponse.Body));
+            var res = sendSmsResponse.Body;
+            return new SmsResult()
+            {
+                BizId = res.BizId,
+                Code = res.Code,
+                Message = res.Message,
+                RequestId = res.RequestId,
+            };
         }
     }
 }
