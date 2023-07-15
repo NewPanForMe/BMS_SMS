@@ -2,9 +2,9 @@
 
 namespace BMS_SMS.Models
 {
-    public class SmsBaseConfig
+    public record SmsBaseConfig
     { 
-        public static SmsBaseConfig Instance { get; set; }
+        public static SmsBaseConfig Instance { get; set; } = new SmsBaseConfig();
         /// <summary>
         /// 密钥Id
         /// </summary>

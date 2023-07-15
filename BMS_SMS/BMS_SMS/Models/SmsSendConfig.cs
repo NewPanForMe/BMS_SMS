@@ -3,9 +3,9 @@
 namespace BMS_SMS.Models
 {
  
-    public class SmsSendConfig
+    public record SmsSendConfig
     {
-        public static SmsSendConfig Instance { get; set; }
+        public static SmsSendConfig Instance { get; set; } = new SmsSendConfig();
         /// <summary>
         /// 密钥Id
         /// </summary>
